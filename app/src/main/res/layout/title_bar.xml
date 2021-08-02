@@ -4,7 +4,7 @@
     android:id="@+id/title_bar"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:background="#ededed"
+    android:background="#01c5ff"
     >
     <TextView
         android:id="@+id/title"
@@ -14,15 +14,6 @@
         android:textColor="@android:color/white"
         android:textSize="20sp"
         />
-    <ImageView
-        android:id="@+id/edit_information"
-        android:layout_alignParentLeft="true"
-        android:background="@drawable/user"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="5dp"
-        android:layout_width="30dp"
-        android:layout_height="30dp">
-    </ImageView>
     <ImageView
         android:id="@+id/add_contact"
         android:layout_alignParentRight="true"

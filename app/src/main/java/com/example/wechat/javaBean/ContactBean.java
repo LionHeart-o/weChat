@@ -1,58 +1,70 @@
 package com.example.wechat.javaBean;
 
-public class ContactBean{
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-    private String ourHead;
-    private String head;
-    private String my_name;
+public class ContactBean implements Serializable {
+
+    private String contact_head;
     private String contact_name;
-    private String my_email;
-
-    public String getMy_email() {
-        return my_email;
-    }
-
-    public void setMy_email(String my_email) {
-        this.my_email = my_email;
-    }
-
     private String contact_email;
+    private String contact_last_message;
+    private String last_time;
+    private String signature;
+    private static List<ContactBean> singleton;
+    private static Map<String,Integer> contactIndex;
 
-
-    public void setOurHead(String ourHead) {
-        this.ourHead = ourHead;
+    public static synchronized List<ContactBean> getInstance() {
+        if (singleton == null) {
+            singleton = new ArrayList<>();
+        }
+        return singleton;
     }
 
-    public String getMy_name() {
-        return my_name;
+    public static synchronized Map<String,Integer> getIndexInstance() {
+        if (contactIndex == null) {
+            contactIndex = new HashMap<>();
+        }
+        return contactIndex;
     }
 
-    public void setMy_name(String my_name) {
-        this.my_name = my_name;
+    public void setAllNull(){
+        this.singleton=new ArrayList<>();
     }
 
-    public ContactBean(String ourHeadDetail){
-        this.ourHead=ourHeadDetail;
+    public String getContact_last_message() {
+        return contact_last_message;
     }
 
-    public String getOurHead() {
-        return ourHead;
+    public void setContact_last_message(String contact_last_message) {
+        this.contact_last_message = contact_last_message;
     }
 
-    public String getContact_email() {
-        return contact_email;
+    public String getLast_time() {
+        return last_time;
     }
 
-    public void setContact_email(String contact_email) {
-        this.contact_email = contact_email;
+    public void setLast_time(String last_time) {
+        this.last_time = last_time;
     }
 
-    public String getHead() {
-        return head;
+    public String getSignature() {
+        return signature;
     }
 
-    public void setHead(String head) {
-        this.head = head;
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+
+    public String getContact_head() {
+        return contact_head;
+    }
+
+    public void setContact_head(String contact_head) {
+        this.contact_head = contact_head;
     }
 
     public String getContact_name() {
@@ -63,4 +75,11 @@ public class ContactBean{
         this.contact_name = contact_name;
     }
 
+    public String getContact_email() {
+        return contact_email;
+    }
+
+    public void setContact_email(String contact_email) {
+        this.contact_email = contact_email;
+    }
 }

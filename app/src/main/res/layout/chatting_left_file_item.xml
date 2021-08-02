@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="6dp">
+    <ImageView
+        android:id="@+id/iv_head"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp"
+        android:background="#FFFFFF"
+        android:focusable="false" />
+    <RelativeLayout
+        android:layout_marginBottom="2dp"
+        android:background="@drawable/item_bg_selector"
+        android:padding="10dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:id="@+id/file_content"
+        style="@style/chat_content_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_toEndOf="@id/iv_head"
+        android:layout_toRightOf="@id/iv_head"
+        >
+        <LinearLayout
+            android:id="@+id/contact_linear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/file_name"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="#000000"
+                android:text="文件名称"
+                android:textSize="14dp" />
+            <TextView
+                android:id="@+id/file_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="#cfd0d1"
+                android:text="文件大小"
+                android:textSize="10dp" />
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/file_pic"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_toRightOf="@+id/contact_linear"
+            android:scaleType="fitXY" />
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/item_bottom_1">
+
+    <fragment
+        android:id="@+id/item_bottom_1"
+        android:name="com.example.wechat.Activity.ui.home.HomeFragment"
+        android:label="聊天"
+        tools:layout="@layout/activity_contacts" />
+
+    <fragment
+        android:id="@+id/item_bottom_2"
+        android:name="com.example.wechat.Activity.ui.notifications.NotificationsFragment"
+        android:label="系统"
+        tools:layout="@layout/activity_notifications" />
+    <fragment
+        android:id="@+id/item_bottom_3"
+        android:name="com.example.wechat.Activity.ui.hideout.HideoutFragment"
+        android:label="犯罪窝点"
+        tools:layout="@layout/activity_hideout" />
+    <fragment
+        android:id="@+id/item_bottom_4"
+        android:name="com.example.wechat.Activity.ui.dashboard.MyInfoFragment"
+        android:label="我的"
+        tools:layout="@layout/activity_my" />
+</navigation>

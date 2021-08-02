@@ -13,12 +13,14 @@ import com.bumptech.glide.Glide;
 import com.example.wechat.Activity.ChatActivity;
 import com.example.wechat.R;
 import com.example.wechat.javaBean.ContactBean;
+import com.example.wechat.javaBean.LoginBean;
 
 import java.util.List;
 
 public class ContactAdapter extends BaseAdapter {
     private Context mContext;
     private List<ContactBean> sb1;
+    private LoginBean loginBean=LoginBean.getInstance();
 
     public ContactAdapter(Context context){
         this.mContext=context;
@@ -51,7 +53,9 @@ public class ContactAdapter extends BaseAdapter {
             convertView= LayoutInflater.from(mContext).inflate(R.layout.contact_item,null);
 
             vh.contact_name=(TextView) convertView.findViewById(R.id.contact_name);
-            vh.contact_email=(TextView) convertView.findViewById(R.id.contact_email);
+            vh.contact_time=(TextView) convertView.findViewById(R.id.contact_time);
+            vh.contact_last_message=(TextView) convertView.findViewById(R.id.contact_message);
+
             vh.contact_head=(ImageView) convertView.findViewById(R.id.contact_head);
             convertView.setTag(vh);
         }else {
@@ -62,9 +66,10 @@ public class ContactAdapter extends BaseAdapter {
 
         if(bean!=null){
             vh.contact_name.setText(bean.getContact_name());
-            vh.contact_email.setText(bean.getContact_email());
-            Glide.with(mContext).load(bean.getHead()).error(R.mipmap.user).into(vh.contact_head);
+            vh.contact_time.setText(bean.getLast_time());
+            vh.contact_last_message.setText(bean.getContact_last_message());
 
+            Glide.with(mContext).load(bean.getContact_head()).error(R.mipmap.user).into(vh.contact_head);
         }
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,10 +77,10 @@ public class ContactAdapter extends BaseAdapter {
                 if (bean == null) return;
                 Intent intent = new Intent(mContext, ChatActivity.class);
                 intent.putExtra("contact_email", bean.getContact_email());
-                intent.putExtra("my_email", bean.getMy_email());
-                intent.putExtra("my_name", bean.getMy_name());
-                intent.putExtra("contact_head", bean.getHead());
-                intent.putExtra("myHead", bean.getOurHead());
+                intent.putExtra("my_email", loginBean.getEmail());
+                intent.putExtra("my_name", loginBean.getMyName());
+                intent.putExtra("contact_head",bean.getContact_head());
+                intent.putExtra("myHead", loginBean.getHead());
                 mContext.startActivity(intent);
 
             }
@@ -84,7 +89,7 @@ public class ContactAdapter extends BaseAdapter {
     }
 
     class ViewHolder{
-        public TextView contact_name,contact_email;
+        public TextView contact_name,contact_time,contact_last_message;
         public ImageView contact_head;
     }
 

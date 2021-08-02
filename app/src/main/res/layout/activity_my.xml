@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:background="#EEEEEE"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/myHead"
+                android:layout_marginTop="30dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="128dp"
+                android:layout_height="128dp">
+            </ImageView>
+        </LinearLayout>
+        <RelativeLayout
+            android:id="@+id/updateUsername"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/item_bg_selector"
+            android:padding="10dp">
+            <ImageView
+                android:src="@mipmap/user_name"
+                android:id="@+id/user_name_icon"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentLeft="true"
+                android:scaleType="fitXY" />
+            <TextView
+                android:id="@+id/username"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:layout_marginLeft="30dp"
+                android:layout_toRightOf="@id/user_name_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp">
+            </TextView>
+        </RelativeLayout>
+        <RelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/item_bg_selector"
+            android:padding="10dp">
+            <ImageView
+                android:src="@mipmap/email"
+                android:id="@+id/email_icon"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentLeft="true"
+                android:scaleType="fitXY" />
+            <TextView
+                android:id="@+id/userEmail"
+                android:textColor="#000000"
+                android:layout_marginLeft="30dp"
+                android:gravity="center"
+                android:layout_toRightOf="@id/email_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp">
+            </TextView>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:layout_marginBottom="80dp"
+            android:orientation="vertical"
+            android:layout_height="0dp">
+            <Button
+                android:id="@+id/loginOut"
+                android:text="退出登录"
+                android:layout_gravity="right"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:textColor="#000000"
+                android:background="@drawable/button_bg_selector"
+                android:layout_height="60dp">
+            </Button>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

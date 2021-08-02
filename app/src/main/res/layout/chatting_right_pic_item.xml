@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="6dp">
+    <ImageView
+        android:id="@+id/iv_head"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp"
+        android:background="#FFFFFF"
+        android:focusable="false" />
+    <ImageView
+        android:id="@+id/tv_chat_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="5dp"
+
+        android:layout_toLeftOf="@id/iv_head"
+        android:adjustViewBounds="true"
+        android:src="@drawable/chat_bg"
+        android:minHeight="200dp"
+        android:minWidth="200dp"
+        android:maxHeight="300dp"
+        android:maxWidth="300dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

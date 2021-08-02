@@ -8,6 +8,12 @@ public class LoginBean implements Serializable {
     private String head;
     private String myName;
 
+    private static LoginBean singleton;
+
+    private LoginBean () {
+
+    }
+
     public String getMyName() {
         return myName;
     }
@@ -49,4 +55,16 @@ public class LoginBean implements Serializable {
     }
 
 
+
+
+    public static synchronized LoginBean getInstance() {
+        if (singleton == null) {
+            singleton = new LoginBean();
+        }
+        return singleton;
+    }
+
+    public void setAllNull(){
+        this.singleton=new LoginBean();
+    }
 }

@@ -43,7 +43,7 @@ public class getMysql {
 		return null;
 	}
 
-	public static void register(String email, String password, String user_name, Context context) {
+	/*public static void register(String email, String password, String user_name, Context context) {
 		Connection con = connectionMysql();
 		PreparedStatement sql = null;
 		try {
@@ -72,9 +72,9 @@ public class getMysql {
 
 			}
 		}
-	}
+	}*/
 
-	public static void login(String email, String password, LoginBean loginBean, Context context) {
+	/*public static void login(String email, String password, LoginBean loginBean, Context context) {
 		Connection con = connectionMysql();
 		Statement sql = null;
 		try {
@@ -108,9 +108,9 @@ public class getMysql {
 			} catch (Exception ee) {
 			}
 		}
-	}
+	}*/
 
-	public static void getContacts(String email, LoginBean loginBean, List<ContactBean> pythonList, Context context) {
+	/*public static void getContacts(String email, LoginBean loginBean, List<ContactBean> pythonList, Context context) {
 		Connection con = connectionMysql();
 		Statement sql = null;
 		ContactBean contactbean;
@@ -137,7 +137,7 @@ public class getMysql {
 			} catch (Exception ee) {
 			}
 		}
-	}
+	}*/
 
 	/*public static void getMessages(String ownEmail, String contactEmail, List<ChatBean> chatBeanList, String ourHead, String contactHead, Context context) {
 		Connection con = connectionMysql();

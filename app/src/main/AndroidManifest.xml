@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true"
         android:networkSecurityConfig="@xml/network_security_config"
+        android:name=".application.MyApplication"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity android:name=".Activity.LoginActivity">
             <intent-filter>
@@ -19,14 +21,29 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activity.RegisterActivity"></activity>
-        <activity android:name=".Activity.ContactsActivity"></activity>
+        <activity android:name=".Activity.VerficationActivity"></activity>
+        <activity android:name=".Activity.ModifyPasswordActivity"></activity>
+        <activity android:name=".Activity.MainActivity"></activity>
+        <activity android:name=".Activity.DynamicsActivity"></activity>
         <activity android:name=".Activity.ChatActivity" android:launchMode="singleTask"></activity>
+
         <service android:name=".service.TimeService"></service>
 
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.wechat.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"
+                />
+        </provider>
 
     </application>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />

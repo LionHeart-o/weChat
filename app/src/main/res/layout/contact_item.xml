@@ -25,15 +25,24 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:textColor="#000000"
+            android:text="默认信息"
             android:textSize="20dp" />
-
+        <TextView
+            android:id="@+id/contact_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="#cfd0d1"
+            android:text="默认信息"
+            android:textSize="16dp" />
     </LinearLayout>
     <TextView
-        android:id="@+id/contact_email"
+        android:id="@+id/contact_time"
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         android:textColor="#cfd0d1"
+        android:text="默认信息"
         android:textSize="12sp" />
 </RelativeLayout>

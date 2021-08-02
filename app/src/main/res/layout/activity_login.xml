@@ -61,11 +61,21 @@
             android:layout_width="250dp"
             android:layout_height="35dp">
         </EditText>
+        <TextView
+            android:id="@+id/forget_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:text="忘记密码？"
+            android:textColor="@color/colorBlue"
+            >
+        </TextView>
         <Button
             android:id="@+id/login_button"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/button_rectangle"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="20dp"
             android:text="立即登录"
             android:layout_width="250dp"
             android:layout_height="40dp">
@@ -89,7 +99,7 @@
             android:id="@+id/jump_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#45f6ff"
+            android:textColor="@color/colorBlue"
             android:textSize="14dp"
             android:text="马上注册!">
         </TextView>

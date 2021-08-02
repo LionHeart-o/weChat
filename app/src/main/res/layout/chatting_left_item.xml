@@ -22,4 +22,6 @@
         android:layout_toEndOf="@id/iv_head"
         android:background="@drawable/chat_left_selector"
         android:layout_toRightOf="@id/iv_head" />
+
+
 </RelativeLayout>

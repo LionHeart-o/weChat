@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="2dp"
+    android:background="@drawable/item_bg_selector"
+    android:padding="10dp">
+    <ImageView
+        android:id="@+id/contact_head"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/bayonetta"
+        android:layout_alignParentLeft="true"
+        android:scaleType="fitXY" />
+    <LinearLayout
+        android:id="@+id/contact_linear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/contact_head"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/contact_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="#000000"
+            android:text="默认信息"
+            android:textSize="16dp" />
+        <TextView
+            android:id="@+id/publish_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="#cfd0d1"
+            android:text="默认信息"
+            android:textSize="12dp" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/thought_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/contact_head"
+        android:textColor="#000000"
+        android:text="默认信息"
+        android:textSize="16sp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/recycler"
+        android:layout_alignBottom="@+id/recycler"
+        android:background="@color/app_color_white" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/thought_message"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:overScrollMode="never" />
+    <View
+        android:id="@+id/divider"
+        android:layout_below="@id/recycler"
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_height="1dp"
+        android:background="#EEEEEE"/>
+    <ListView
+        android:layout_below="@id/divider"
+        android:id="@+id/comment_list"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ListView>
+    <LinearLayout
+        android:id="@+id/line_comment"
+        android:layout_width="match_parent"
+        android:layout_below="@id/comment_list"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/default_send_message"
+            android:layout_weight="9"
+            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:singleLine="true"
+            android:hint="@string/comment"
+            android:textColorHint="@color/app_color_grey"
+            android:background="@drawable/default_edit_bg"
+            android:paddingLeft="10dp"
+            android:textColor="#c9c8ce"
+            android:textSize="14sp" />
+        <Button
+            android:id="@+id/send_comment_btn"
+            android:background="@color/colorSkyBlue"
+            android:textColor="@color/app_color_white"
+            android:text="发送"
+            android:layout_toRightOf="@id/default_send_message"
+            android:layout_height="30dp"
+            android:layout_width="wrap_content">
+        </Button>
+    </LinearLayout>
+
+
+</RelativeLayout>
