@@ -2258,7 +2258,7 @@ public class PictureSelectorActivity extends PictureBaseActivity implements View
                         ? Environment.DIRECTORY_MOVIES : PictureMimeType.CAMERA;
                 for (int i = 0; i < count; i++) {
                     LocalMediaFolder cameraFolder = folderWindow.getFolderData().get(i);
-                    if (!TextUtils.isEmpty(cameraFolder.getName()) && cameraFolder.getName().startsWith(newFolder)) {
+                    if (!TextUtils.isEmpty(cameraFolder.getUsername()) && cameraFolder.getUsername().startsWith(newFolder)) {
                         media.setBucketId(cameraFolder.getBucketId());
                         cameraFolder.setFirstImagePath(config.cameraPath);
                         cameraFolder.setImageNum(isAddSameImp(totalNum) ? cameraFolder.getImageNum() : cameraFolder.getImageNum() + 1);
@@ -2353,11 +2353,11 @@ public class PictureSelectorActivity extends PictureBaseActivity implements View
         int size = imageFolders.size();
         for (int i = 0; i < size; i++) {
             LocalMediaFolder folder = imageFolders.get(i);
-            String name = folder.getName();
+            String name = folder.getUsername();
             if (TextUtils.isEmpty(name)) {
                 continue;
             }
-            if (name.equals(folderFile.getName())) {
+            if (name.equals(folderfile.getName())) {
                 folder.setFirstImagePath(config.cameraPath);
                 folder.setImageNum(folder.getImageNum() + 1);
                 folder.setCheckedNum(1);

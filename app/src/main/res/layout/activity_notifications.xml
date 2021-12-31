@@ -5,8 +5,8 @@
     android:background="@android:color/white"
     android:orientation="vertical">
     <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <RelativeLayout
             android:id="@+id/notification_relative"
             android:layout_width="wrap_content"
@@ -37,7 +37,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="700dp"
                     android:orientation="vertical">
-                    <com.example.wechat.Adapter.ContactListView
+                    <com.example.wechat.customView.ContactListView
                         android:id="@+id/notification_list"
                         android:layout_width="match_parent"
                         android:layout_height="680dp"

@@ -1,8 +1,10 @@
 package com.example.wechat.Activity;
 
 
+import android.content.Context;
 import android.content.Intent;
 
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -17,24 +19,31 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.wechat.R;
-import com.example.wechat.SQLite.SQLAutoLogin;
 
 import com.example.wechat.SQLite.SQLiteHelper;
+import com.example.wechat.Utils.MD5Utils;
 import com.example.wechat.application.MyApplication;
+import com.example.wechat.javaBean.ChatBean;
 import com.example.wechat.javaBean.ContactBean;
 
+import com.example.wechat.javaBean.ConversationBean;
+import com.example.wechat.javaBean.GroupBean;
+import com.example.wechat.javaBean.GroupMember;
 import com.example.wechat.javaBean.LoginBean;
-import com.example.wechat.javaBean.NotificationBean;
-import com.example.wechat.javaBean.getStaticBean.getNotificationBean;
-import com.example.wechat.methods.Encrypt;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
@@ -54,22 +63,22 @@ public class LoginActivity extends AppCompatActivity {
     private TextView forget_password;
     private TextView jump_register;
 
-    private SQLAutoLogin helper;//处理自动登录的数据库操作对象
+    private SharedPreferences sp;
+    private SharedPreferences.Editor editor;
+
     private SQLiteHelper info_helper;//处理获取用户消息记录的数据库操作对象
 
 
     private int time = 10;
 
-    private MyApplication application;
     private LoginBean loginBean=LoginBean.getInstance();
-    private List<ContactBean> contactBeanList=ContactBean.getInstance();
-    private Map<String,Integer> contactIndex=ContactBean.getIndexInstance();
 
 
    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        application = (MyApplication)this.getApplication();
+        sp=getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
+        editor=sp.edit();
         if(autoLogin()==false){
             setContentView(R.layout.activity_login);
             init();
@@ -77,15 +86,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean autoLogin(){
-        helper = new SQLAutoLogin(this);
-        SQLiteDatabase database = helper.getReadableDatabase();
-        helper.onCreate(database);
-        Cursor cursor = helper.query();
-        if(cursor.getCount()==0){
+
+        String account=sp.getString("email",null);
+        String password=sp.getString("password",null);
+        if(account==null||password==null){
             return false;
         }else {
-            cursor.moveToFirst();
-            requireLogin(cursor.getString(cursor.getColumnIndex("email")),cursor.getString(cursor.getColumnIndex("password")));
+            requireLogin(account,password);
             return true;
         }
     }
@@ -99,8 +106,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(LoginActivity.this,"点击登录",Toast.LENGTH_SHORT).show();
-                requireLogin(email.getText().toString(),Encrypt.encrypt(password.getText().toString(),"java"));//请求登录
-                helper.insert(email.getText().toString(),Encrypt.encrypt(password.getText().toString(),"java"));
+                requireLogin(email.getText().toString(), password.getText().toString());//请求登录
             }
         });
 
@@ -132,8 +138,8 @@ public class LoginActivity extends AppCompatActivity {
 
     public void requireLogin(String email,String password){
         OkHttpClient okHttpClient = new OkHttpClient();
-        Request request = new Request.Builder().url(application.getBack_end_url()+"login.action?" +
-                "email="+email+"&password="+ password).build();//将用户的账号密码传输
+        Request request = new Request.Builder().url(MyApplication.BACK_URL+"login.action?" +
+                "email="+email+"&password="+ MD5Utils.stringToMD5(password)).build();//将用户的账号密码传输
         Call call = okHttpClient.newCall(request);
         // 开启异步线程访问网络
         call.enqueue(new Callback() {
@@ -141,75 +147,117 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call call, Response response) throws IOException {
                 String res = response.body().string();
                 Log.i("nmsl",res);
-                try {
-                    JSONObject json=new JSONObject(res);
-                    if(json.getString("loginState").equals("true")){
-                        loginBean.setEmail(json.getString("email"));
-                        loginBean.setPassword(json.getString("password"));
-                        loginBean.setHead(json.getString("head"));
-                        loginBean.setMyName(json.getString("username"));
-                        loginBean.setLogin(true);
-                        JSONArray jsonArray=new JSONArray(json.getString("contacts"));
-                        JSONObject jsonTemp;
-
-                        ContactBean contactBean;
-                        for(int i=0;i<jsonArray.length();i++){
-                            contactBean = new ContactBean();
-                            jsonTemp=jsonArray.getJSONObject(i);
-                            contactBean.setContact_email(jsonTemp.getString("email"));
-                            contactBean.setContact_head(jsonTemp.getString("head"));
-                            contactBean.setContact_name(jsonTemp.getString("username"));
-                            info_helper = new SQLiteHelper(LoginActivity.this);
-                            SQLiteDatabase database = helper.getReadableDatabase();
-                            info_helper.onCreate(database);
-
-                            //根据邮箱存储坐标，便于查询
-                            contactIndex.put(jsonTemp.getString("email"),i);
-                            Cursor cursor = info_helper.queryLastMessage(loginBean.getEmail(),jsonTemp.getString("email"));
-                            if(cursor.getCount()==0){
-                                contactBean.setContact_last_message("");
-                            }else {
-                                cursor.moveToFirst();
-                                contactBean.setLast_time(cursor.getString(cursor.getColumnIndex("createTime")));
-                                if(cursor.getString(cursor.getColumnIndex("type")).equals("4")){
-                                    contactBean.setContact_last_message("[图片]");
-                                }else if(cursor.getString(cursor.getColumnIndex("type")).equals("5")){
-                                    contactBean.setContact_last_message("[文件]");
-                                }else{
-                                    contactBean.setContact_last_message(cursor.getString(cursor.getColumnIndex("message")));
-                                }
-
-                            }
-                            contactBeanList.add(contactBean);
-                        }
-
-
-                        jsonArray=new JSONArray(json.getString("notifications"));
-                        NotificationBean notificationBean;
-                        for(int i=0;i<jsonArray.length();i++){
-                            notificationBean=new NotificationBean();
-                            jsonTemp=jsonArray.getJSONObject(i);
-                            if(jsonTemp.getString("email").equals(loginBean.getEmail())){
-                                Log.i("nmsl",jsonTemp.getString("email")+"    "+loginBean.getEmail());
-                                continue;
-                            }
-                            notificationBean.setEmail(jsonTemp.getString("email"));
-                            notificationBean.setHead(jsonTemp.getString("head"));
-                            notificationBean.setName(jsonTemp.getString("username"));
-                            Integer state = new Integer(jsonTemp.getString("contactState"));
-                            notificationBean.setState(state);
-                            getNotificationBean.pythonList.add(notificationBean);
-                        }
-
+                GsonBuilder builder = new GsonBuilder();
+                builder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
+                    public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+                        return new Date(json.getAsJsonPrimitive().getAsLong());
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                });
+                Gson gson = builder.setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+
+                loginBean=gson.fromJson(res,LoginBean.class);
+
+                LoginBean.setInstance(loginBean);
+
+                if(loginBean.getLoginState().equals("true")){
+                    editor.putString("email",email);
+                    editor.putString("password",password);
+                    editor.commit();
+
+                    loginBean.setLogin(true);
+
+                    List<ContactBean> contactBeanList=loginBean.getContacts();//联系人列表
+                    Map<String,Integer> contactIndex=loginBean.getContactIndex();//联系人坐标
+                    List<GroupBean> groupBeanList=loginBean.getGroups();
+                    Map<String,Integer> groupIndex=loginBean.getGroupIndex();//联系人坐标
+
+                    List<ConversationBean> conversations=loginBean.getConversations();
+                    if(conversations==null) conversations=new ArrayList<>();
+
+
+                    //下面是从数据库里读取本地的信息，这里需要将个人和群聊信息合并加载成会话
+                    info_helper = new SQLiteHelper(LoginActivity.this);
+                    SQLiteDatabase database = info_helper.getReadableDatabase();
+                    info_helper.onCreate(database);
+
+
+                    for(int i=0;i<contactBeanList.size();i++){
+                        //根据邮箱存储坐标，便于查询
+                        contactIndex.put(contactBeanList.get(i).getEmail(),i);
+                        Cursor cursor = info_helper.queryLastMessage(contactBeanList.get(i).getEmail());//扫描
+
+                        ConversationBean temp=new ConversationBean();
+                        temp.setAccountNumber(contactBeanList.get(i).getEmail());
+                        temp.setConversation_cover(contactBeanList.get(i).getHead());
+                        temp.setConversation_name(contactBeanList.get(i).getUsername());
+                        temp.setConversation_type(ConversationBean.PEOPLE);
+
+                        if(cursor.getCount()==0){
+                            temp.setLast_message("");
+                            temp.setLast_time("");
+                        }else {
+                            cursor.moveToFirst();
+                            temp.setLast_time(cursor.getString(cursor.getColumnIndex("createTime")));
+                            if(cursor.getInt(cursor.getColumnIndex("messageType"))==ChatBean.PIC){
+                                temp.setLast_message("[图片]");
+                            }else if(cursor.getInt(cursor.getColumnIndex("messageType"))==ChatBean.FILE){
+                                temp.setLast_message("[文件]");
+                            }else{
+                                temp.setLast_message(cursor.getString(cursor.getColumnIndex("message")));
+                            }
+                        }
+                        conversations.add(temp);
+                    }
+
+
+                    for(int i=0;i<groupBeanList.size();i++){
+                        //根据邮箱存储坐标，便于查询
+                        groupIndex.put(groupBeanList.get(i).getGroupId().toString(),i);
+                        Cursor cursor = info_helper.queryLastMessage(groupBeanList.get(i).getGroupId().toString());//扫描
+
+                        ConversationBean temp=new ConversationBean();
+                        temp.setAccountNumber(groupBeanList.get(i).getGroupId().toString());
+                        temp.setConversation_cover(groupBeanList.get(i).getGroupCover());
+                        temp.setConversation_name(groupBeanList.get(i).getGroupName());
+                        temp.setConversation_type(ConversationBean.GROUP);
+
+                        if(cursor.getCount()==0){
+                            temp.setLast_message("");
+                            temp.setLast_time("");
+                        }else {
+                            cursor.moveToFirst();
+                            temp.setLast_time(cursor.getString(cursor.getColumnIndex("createTime")));
+                            if(cursor.getInt(cursor.getColumnIndex("messageType"))==ChatBean.PIC){
+                                temp.setLast_message("[图片]");
+                            }else if(cursor.getInt(cursor.getColumnIndex("messageType"))==ChatBean.FILE){
+                                temp.setLast_message("[文件]");
+                            }else{
+                                temp.setLast_message(cursor.getString(cursor.getColumnIndex("message")));
+                            }
+                        }
+
+                        Map<String,Integer> memberIndex=groupBeanList.get(i).getMemberIndex();
+                        for(int j=0;j<groupBeanList.get(i).getGroupMembers().size();j++){
+                            GroupMember groupMember=groupBeanList.get(i).getGroupMembers().get(j);
+                            memberIndex.put(groupMember.getEmail(),j);
+                        }
+
+                        conversations.add(temp);
+                    }
+
+                    loginBean.setConversations(conversations);
+
+                }else{
+
+                    SharedPreferences.Editor editor=sp.edit();
+                    //editor.clear().commit();
                 }
 
             }
             @Override
             public void onFailure(Call call, IOException e) {
-
+                e.printStackTrace();
+                editor.clear().commit();
             }
         });
         Timer timer;
@@ -221,10 +269,11 @@ public class LoginActivity extends AppCompatActivity {
                 Log.i("???",time+"");
                 time=time-1;
                 if(time==0){
-                    time=10;
                     tipToast("登录超时");
-                    System.gc();
                     cancel();
+                    finish();
+                    Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
+                    startActivity(intent);
                 }
                 if(loginBean.isLogin()){
                     Intent intent = new Intent();

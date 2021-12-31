@@ -188,7 +188,7 @@ public class FolderPopWindow extends PopupWindow {
                 folder.setCheckedNum(0);
                 for (int j = 0; j < resultSize; j++) {
                     LocalMedia media = result.get(j);
-                    if (folder.getName().equals(media.getParentFolderName())
+                    if (folder.getUsername().equals(media.getParentFolderName())
                             || folder.getBucketId() == -1) {
                         folder.setCheckedNum(1);
                         break;

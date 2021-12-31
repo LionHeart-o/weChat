@@ -2,53 +2,71 @@ package com.example.wechat.javaBean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ContactBean implements Serializable {
 
-    private String contact_head;
-    private String contact_name;
-    private String contact_email;
-    private String contact_last_message;
-    private String last_time;
-    private String signature;
-    private static List<ContactBean> singleton;
-    private static Map<String,Integer> contactIndex;
+    //和后端一致的消息
+    private String email;
+    private String username;
+    private String head;
+    private String cover;//朋友圈封面
+    private	String signature;//用户个性签名
+    private String residence;//用户居住地
+    private String sex;//用户性别
+    private Date birthday;
+    private List<ThoughtBean> thoughtBeanList=new ArrayList<>();
 
-    public static synchronized List<ContactBean> getInstance() {
-        if (singleton == null) {
-            singleton = new ArrayList<>();
-        }
-        return singleton;
+    //和后端不一致的消息，这些消息都可以从出生日推导
+    private String birthdayString;//中文描述的出生日
+    private int contact_age;//年龄
+    private String contact_constellation;//星座
+
+    //和后端不一致的消息，主要用于创建群聊
+    private boolean isChecked;
+
+
+    public String getBirthdayString() {
+        return birthdayString;
     }
 
-    public static synchronized Map<String,Integer> getIndexInstance() {
-        if (contactIndex == null) {
-            contactIndex = new HashMap<>();
-        }
-        return contactIndex;
+    public void setBirthdayString(String birthdayString) {
+        this.birthdayString = birthdayString;
     }
 
-    public void setAllNull(){
-        this.singleton=new ArrayList<>();
+    public String getEmail() {
+        return email;
     }
 
-    public String getContact_last_message() {
-        return contact_last_message;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public void setContact_last_message(String contact_last_message) {
-        this.contact_last_message = contact_last_message;
+    public String getUsername() {
+        return username;
     }
 
-    public String getLast_time() {
-        return last_time;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public void setLast_time(String last_time) {
-        this.last_time = last_time;
+    public String getHead() {
+        return head;
+    }
+
+    public void setHead(String head) {
+        this.head = head;
+    }
+
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
     }
 
     public String getSignature() {
@@ -59,27 +77,62 @@ public class ContactBean implements Serializable {
         this.signature = signature;
     }
 
-    public String getContact_head() {
-        return contact_head;
+    public String getResidence() {
+        return residence;
     }
 
-    public void setContact_head(String contact_head) {
-        this.contact_head = contact_head;
+    public void setResidence(String residence) {
+        this.residence = residence;
     }
 
-    public String getContact_name() {
-        return contact_name;
+    public String getSex() {
+        return sex;
     }
 
-    public void setContact_name(String contact_name) {
-        this.contact_name = contact_name;
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 
-    public String getContact_email() {
-        return contact_email;
+
+    public Date getBirthday() {
+        return birthday;
     }
 
-    public void setContact_email(String contact_email) {
-        this.contact_email = contact_email;
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
+
+    public int getContact_age() {
+        return contact_age;
+    }
+
+    public void setContact_age(int contact_age) {
+        this.contact_age = contact_age;
+    }
+
+    public List<ThoughtBean> getThoughtBeanList() {
+        return thoughtBeanList;
+    }
+
+    public void setThoughtBeanList(List<ThoughtBean> thoughtBeanList) {
+        this.thoughtBeanList = thoughtBeanList;
+    }
+
+    public String getContact_constellation() {
+        return contact_constellation;
+    }
+
+    public void setContact_constellation(String contact_constellation) {
+        this.contact_constellation = contact_constellation;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
+
+
 }

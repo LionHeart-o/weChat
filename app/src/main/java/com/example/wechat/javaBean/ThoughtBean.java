@@ -3,18 +3,19 @@ package com.example.wechat.javaBean;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ThoughtBean implements Serializable {
-    private String id;
-    private String send_email;
-    private String message;
-    private String head;
-    private String name;
+    private String id="";
+    private String send_email="";
+    private String message="";
+    private Timestamp createTime;
     private List<String> pic;
-    private List<CommentBean> commentBeanList;
-    private String timestamp;
+    private List<CommentBean> comments;
 
+    private String head="";
+    private String name="";
 
 
     private static List<ThoughtBean> singleton;
@@ -24,6 +25,9 @@ public class ThoughtBean implements Serializable {
             singleton = new ArrayList<>();
         }
         return singleton;
+    }
+    public static synchronized void setInstance(List<ThoughtBean> thoughtBeanList) {
+        singleton=thoughtBeanList;
     }
 
 
@@ -59,12 +63,13 @@ public class ThoughtBean implements Serializable {
         this.pic = pic;
     }
 
-    public String getTimestamp() {
-        return timestamp;
+
+    public Timestamp getCreateTime() {
+        return createTime;
     }
 
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
     }
 
     public String getHead() {
@@ -75,7 +80,7 @@ public class ThoughtBean implements Serializable {
         this.head = head;
     }
 
-    public String getName() {
+    public String getUsername() {
         return name;
     }
 
@@ -83,25 +88,12 @@ public class ThoughtBean implements Serializable {
         this.name = name;
     }
 
-    public List<CommentBean> getCommentBeanList() {
-        return commentBeanList;
+
+    public List<CommentBean> getComments() {
+        return comments;
     }
 
-    public void setCommentBeanList(List<CommentBean> commentBeanList) {
-        this.commentBeanList = commentBeanList;
-    }
-
-    @Override
-    public String toString() {
-        return "ThoughtBean{" +
-                "id='" + id + '\'' +
-                ", send_email='" + send_email + '\'' +
-                ", message='" + message + '\'' +
-                ", head='" + head + '\'' +
-                ", name='" + name + '\'' +
-                ", pic=" + pic +
-                ", commentBeanList=" + commentBeanList +
-                ", timestamp='" + timestamp + '\'' +
-                '}';
+    public void setComments(List<CommentBean> comments) {
+        this.comments = comments;
     }
 }

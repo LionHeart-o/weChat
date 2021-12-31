@@ -11,8 +11,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.wechat.R;
+import com.example.wechat.Utils.MD5Utils;
 import com.example.wechat.application.MyApplication;
-import com.example.wechat.methods.Encrypt;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -61,8 +61,8 @@ public class ModifyPasswordActivity extends AppCompatActivity {
                     //提示两次密码不一致
                 }else {
                     OkHttpClient okHttpClient = new OkHttpClient();
-                    Request request = new Request.Builder().url(application.getBack_end_url()+"modifyPassword.action?" +
-                            "email="+email+"&password="+ Encrypt.encrypt(password,"java")).build();//在这里将用户发送的信息通过url发送给机器人
+                    Request request = new Request.Builder().url(MyApplication.BACK_URL+"modifyPassword.action?" +
+                            "email="+email+"&modifyPassword="+ MD5Utils.stringToMD5(password)).build();//在这里将用户发送的信息通过url发送给机器人
                     Call call = okHttpClient.newCall(request);
                     // 开启异步线程访问网络
                     call.enqueue(new Callback() {
@@ -73,12 +73,13 @@ public class ModifyPasswordActivity extends AppCompatActivity {
                                 Looper.prepare();
                                 JSONObject json=new JSONObject(res);
                                 if(json.getString("registerState").equals("true")){
-                                    Toast.makeText(ModifyPasswordActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ModifyPasswordActivity.this,"修改成功",Toast.LENGTH_SHORT).show();
+                                    finish();
                                     Intent intent = new Intent();
                                     intent.setClass(ModifyPasswordActivity.this, LoginActivity.class);
                                     startActivity(intent);
                                 }else {
-                                    Toast.makeText(ModifyPasswordActivity.this,"注册失败",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ModifyPasswordActivity.this,"修改失败",Toast.LENGTH_SHORT).show();
                                 }
                                 Looper.loop();
                             } catch (JSONException e) {

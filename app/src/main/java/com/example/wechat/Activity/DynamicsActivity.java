@@ -7,28 +7,21 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,10 +29,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.wechat.Adapter.GridImageAdapter;
 import com.example.wechat.Interface.DragListener;
 import com.example.wechat.R;
+import com.example.wechat.Utils.MD5Utils;
 import com.example.wechat.application.MyApplication;
 import com.example.wechat.javaBean.LoginBean;
-import com.example.wechat.server.FileManager;
-import com.example.wechat.server.FullyGridLayoutManager;
+import com.example.wechat.Utils.FileManager;
+import com.example.wechat.Utils.FullyGridLayoutManager;
 import com.example.wechat.upload.GlideEngine;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.animators.AnimationType;
@@ -47,25 +41,15 @@ import com.luck.picture.lib.broadcast.BroadcastAction;
 import com.luck.picture.lib.broadcast.BroadcastManager;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
-import com.luck.picture.lib.config.PictureSelectionConfig;
 import com.luck.picture.lib.decoration.GridSpacingItemDecoration;
 import com.luck.picture.lib.entity.LocalMedia;
-import com.luck.picture.lib.language.LanguageConfig;
-import com.luck.picture.lib.listener.OnCustomCameraInterfaceListener;
-import com.luck.picture.lib.listener.OnCustomImagePreviewCallback;
 import com.luck.picture.lib.listener.OnResultCallbackListener;
-import com.luck.picture.lib.listener.OnVideoSelectedPlayCallback;
 import com.luck.picture.lib.permissions.PermissionChecker;
-import com.luck.picture.lib.style.PictureCropParameterStyle;
-import com.luck.picture.lib.style.PictureParameterStyle;
-import com.luck.picture.lib.style.PictureSelectorUIStyle;
 import com.luck.picture.lib.style.PictureWindowAnimationStyle;
 import com.luck.picture.lib.tools.PictureFileUtils;
 import com.luck.picture.lib.tools.ScreenUtils;
 import com.luck.picture.lib.tools.SdkVersionUtils;
 import com.luck.picture.lib.tools.ToastUtils;
-import com.luck.picture.lib.tools.ValueOf;
-
 
 
 import java.io.File;
@@ -82,6 +66,8 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+
+import static com.example.wechat.application.MyApplication.FILE_SAVE_URL;
 
 /**
  * @author：liudaxi
@@ -281,6 +267,8 @@ public class DynamicsActivity extends AppCompatActivity{
                 return true;
             }
 
+
+
             @Override
             public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView,
                                     @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
@@ -369,14 +357,16 @@ public class DynamicsActivity extends AppCompatActivity{
                 Date date=new Date();
                 SimpleDateFormat sdk=new SimpleDateFormat("yyyy-MM-dd");
                 String result=sdk.format(date);
-                String fineName;
+                String fileNames;
+                String fileName;
                 String pic_url="";
                 for (LocalMedia pic : mediaResult) {
                     file=new File(pic.getRealPath());
-                    fineName=result+file.getName();
-                    fileManager.uploadFile(file,result+file.getName(),"","",null);
-                    pic_url=pic_url+"&pic_url=http://159.75.27.108/websocket/upload/"+fineName;
-
+                    fileName=file.getName();
+                    int lastIndexOf = fileName.lastIndexOf(".");
+                    fileNames=result+ MD5Utils.stringToMD5(fileName)+fileName.substring(lastIndexOf);
+                    fileManager.uploadFile(file,result+ MD5Utils.stringToMD5(file.getName())+fileName.substring(lastIndexOf),null,"",-1,"",-1,null);
+                    pic_url=pic_url+"&pic_url="+FILE_SAVE_URL+fileNames;
                 }
                 sendThoughts(loginBean.getEmail(),message.getText().toString(),pic_url);
             }
@@ -543,8 +533,9 @@ public class DynamicsActivity extends AppCompatActivity{
         Log.d("nmsl","方法进入");
         Log.d("nmsl",pic_url);
 
-        Request request = new Request.Builder().url(application.getBack_end_url()+"thoughts.action?" +
-                "email="+email+"&message="+ message+pic_url).build();//在这里将用户发送的信息通过url发送给机器人
+        Request request = new Request.Builder().url(MyApplication.BACK_URL+"thoughts.action?" +
+                "email="+email+"&message="+ message+pic_url)
+                .build();//在这里将用户发送的信息通过url发送给机器人
         Call call = okHttpClient.newCall(request);
         // 开启异步线程访问网络
         call.enqueue(new Callback() {

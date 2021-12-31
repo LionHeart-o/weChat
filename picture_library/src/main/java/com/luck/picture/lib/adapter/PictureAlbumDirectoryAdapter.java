@@ -58,7 +58,7 @@ public class PictureAlbumDirectoryAdapter extends RecyclerView.Adapter<PictureAl
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final LocalMediaFolder folder = folders.get(position);
-        String name = folder.getName();
+        String name = folder.getUsername();
         int imageNum = folder.getImageNum();
         String imagePath = folder.getFirstImagePath();
         boolean isChecked = folder.isChecked();
@@ -96,7 +96,7 @@ public class PictureAlbumDirectoryAdapter extends RecyclerView.Adapter<PictureAl
                 }
                 folder.setChecked(true);
                 notifyDataSetChanged();
-                onAlbumItemClickListener.onItemClick(position, folder.isCameraFolder(), folder.getBucketId(), folder.getName(), folder.getData());
+                onAlbumItemClickListener.onItemClick(position, folder.isCameraFolder(), folder.getBucketId(), folder.getUsername(), folder.getData());
             }
         });
     }

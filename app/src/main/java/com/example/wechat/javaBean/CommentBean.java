@@ -5,10 +5,10 @@ import java.sql.Timestamp;
 
 public class CommentBean implements Serializable {
     private String comment_name;
-    private String comment_email;
+    private String send_email;
     private String reply_name;
     private String reply_email;
-    private String comment_text;
+    private String message;
     private Timestamp createTime;
 
 
@@ -20,12 +20,12 @@ public class CommentBean implements Serializable {
         this.comment_name = comment_name;
     }
 
-    public String getComment_email() {
-        return comment_email;
+    public String getSend_email() {
+        return send_email;
     }
 
-    public void setComment_email(String comment_email) {
-        this.comment_email = comment_email;
+    public void setSend_email(String send_email) {
+        this.send_email = send_email;
     }
 
     public String getReply_name() {
@@ -44,12 +44,12 @@ public class CommentBean implements Serializable {
         this.reply_email = reply_email;
     }
 
-    public String getComment_text() {
-        return comment_text;
+    public String getMessage() {
+        return message;
     }
 
-    public void setComment_text(String comment_text) {
-        this.comment_text = comment_text;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public Timestamp getCreateTime() {
@@ -60,15 +60,5 @@ public class CommentBean implements Serializable {
         this.createTime = createTime;
     }
 
-    @Override
-    public String toString() {
-        return "CommentBean{" +
-                "comment_name='" + comment_name + '\'' +
-                ", comment_email='" + comment_email + '\'' +
-                ", reply_name='" + reply_name + '\'' +
-                ", reply_email='" + reply_email + '\'' +
-                ", comment_text='" + comment_text + '\'' +
-                ", createTime=" + createTime +
-                '}';
-    }
+
 }

@@ -14,7 +14,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.wechat.R;
-import com.example.wechat.methods.sendEmail;
+import com.example.wechat.Utils.sendEmail;
 import com.example.wechat.service.TimeService;
 
 import java.util.Random;

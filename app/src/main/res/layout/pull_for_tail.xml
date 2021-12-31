@@ -1,0 +1,48 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/pull_for_tail"
+    android:layout_width="match_parent"
+    android:layout_marginBottom="100dp"
+    android:background="@color/colorBgGray"
+    android:layout_height="200dp" >
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="300dip"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal" >
+        <RelativeLayout
+            android:layout_width="0dip"
+            android:layout_height="100dp"
+            android:layout_weight="6">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:src="@mipmap/nanami"
+                android:layout_height="wrap_content">
+            </ImageView>
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="0dip"
+            android:layout_height="100dp"
+            android:layout_weight="12"
+            android:orientation="vertical" >
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="fill_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
+                android:textColor="@color/colorSkyBlue"
+                android:gravity="center_horizontal|bottom"
+                android:text="已经没有新内容了" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:textColor="@color/colorSkyBlue"
+                android:layout_height="0dip"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|top"
+                android:text="多发动态多加点好友吧~" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

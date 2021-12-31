@@ -28,10 +28,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String sql = "create table if not exists " + TABLE_NAME
                 + "(id INTEGER PRIMARY KEY,"
+                + " sessionId VARCHAR(255)  NOT NULL,"
+                + " sessionType int(8) NOT NULL,"
                 + " sendUser VARCHAR(255)  NOT NULL,"
-                + " receiveUser VARCHAR(255) NOT NULL,"
                 + " message VARCHAR(255) NOT NULL,"
-                + " type int(8) NOT NULL,"
+                + " messageType int(8) NOT NULL,"
                 + " createTime VARCHAR(255) NOT NULL"+
                 ") ";
         db.execSQL(sql);
@@ -53,29 +54,30 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     }
 
     //插入一条记录
-    public void insert(String sendUser,String receiveUser,String message,int type,String time) {
+    public void insert(String sessionId,int sessionType,String sendUser,String message,int messageType,String time) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
+        cv.put("sessionId",sessionId);
+        cv.put("sessionType",sessionType);
         cv.put("sendUser",sendUser);
-        cv.put("receiveUser", receiveUser);
         cv.put("message", message);
-        cv.put("type", type);
+        cv.put("messageType", messageType);
         //设置日期格式
         cv.put("createTime", time);
         db.insert(TABLE_NAME, null, cv);
     }
 
     //根据条件查询
-    public Cursor query(String ownEmail, String contactEmail) {
+    public Cursor query(String sessionId) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from usersmessage where (sendUser = '" + ownEmail + "' and receiveUser = '" + contactEmail + "') or (sendUser = '" + contactEmail + "' and receiveUser = '" + ownEmail + "') ", null);
+        Cursor cursor = db.rawQuery("select * from usersmessage where (sessionId = '" + sessionId + "') ", null);
         return cursor;
     }
 
     //根据条件查询
-    public Cursor queryLastMessage(String ownEmail,String contactEmail) {
+    public Cursor queryLastMessage(String sessionId) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from usersmessage where (sendUser = '" + ownEmail + "' and receiveUser = '" + contactEmail + "') or (sendUser = '" + contactEmail + "' and receiveUser = '" + ownEmail + "')order by id desc limit 1 ", null);
+        Cursor cursor = db.rawQuery("select * from usersmessage where (sessionId = '" + sessionId + "') order by id desc limit 1 ", null);
         return cursor;
     }
 

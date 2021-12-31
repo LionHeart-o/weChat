@@ -9,7 +9,7 @@ public class NotificationBean implements Serializable {
     public static final int REFUSE=2;
 
     private String head;
-    private String name;
+    private String username;
     private String email;
     private int state;
 
@@ -21,12 +21,12 @@ public class NotificationBean implements Serializable {
         this.head = head;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {

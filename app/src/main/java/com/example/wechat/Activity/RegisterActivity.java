@@ -15,9 +15,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.wechat.R;
+import com.example.wechat.Utils.MD5Utils;
 import com.example.wechat.application.MyApplication;
-import com.example.wechat.methods.Encrypt;
-import com.example.wechat.methods.sendEmail;
+import com.example.wechat.Utils.sendEmail;
 import com.example.wechat.service.TimeService;
 
 import org.json.JSONException;
@@ -106,7 +106,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
         MyBroadcastReceiver  receiver = new MyBroadcastReceiver(); //实例化广播接收者
-        String action = "getCaptcha";
+        String action = "getCaptcha";//自定义意图
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(action);
         registerReceiver(receiver,intentFilter); //注册广播
@@ -130,8 +130,8 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this,"用户名不能为空",Toast.LENGTH_SHORT).show();
                 }else{
                     OkHttpClient okHttpClient = new OkHttpClient();
-                    Request request = new Request.Builder().url(application.getBack_end_url()+"register.action?" +
-                            "email="+emailStr+"&username="+user_name.getText().toString()+"&password="+ Encrypt.encrypt(passwordStr,"java")).build();//在这里将用户发送的信息通过url发送给机器人
+                    Request request = new Request.Builder().url(MyApplication.BACK_URL+"register.action?" +
+                            "email="+emailStr+"&username="+user_name.getText().toString()+"&password="+ MD5Utils.stringToMD5(passwordStr)).build();//在这里将用户发送的信息通过url发送给机器人
                     Call call = okHttpClient.newCall(request);
                     // 开启异步线程访问网络
                     call.enqueue(new Callback() {

@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,8 +16,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.wechat.Interface.OnItemLongClickListener;
 import com.example.wechat.R;
-import com.example.wechat.javaBean.LoginBean;
-import com.example.wechat.server.FileManager;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.listener.OnItemClickListener;
@@ -26,17 +23,8 @@ import com.luck.picture.lib.tools.DateUtils;
 
 
 import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 
 /**
@@ -156,10 +144,8 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
         //少于8张，显示继续添加的图标，逻辑为获取当前的列表长度，由于限定列表长度最多为9，超过也只能返回9，所以一旦超过，就会返回否判定，添加图片按钮无法出现。
         if (getItemViewType(position) == TYPE_CAMERA) {
-
-            viewHolder.mImg.setImageResource(R.drawable.ic_add_image);
-            viewHolder.mImg.setOnClickListener(v -> mOnAddPicClickListener.onAddPicClick());
-
+            viewHolder.mImg.setImageResource(R.drawable.ic_add_image);//设置添加图标
+            viewHolder.mImg.setOnClickListener(v -> mOnAddPicClickListener.onAddPicClick());//设置添加方法
             viewHolder.mIvDel.setVisibility(View.INVISIBLE);
         } else {
             viewHolder.mIvDel.setVisibility(View.VISIBLE);
@@ -173,6 +159,7 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
                     notifyItemRangeChanged(index, list.size());
                 }
             });
+
             LocalMedia media = list.get(position);
 
             //如果media对象为空或者media对象的地址为空，那就返回。
@@ -229,12 +216,12 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
                 viewHolder.mImg.setImageResource(R.drawable.picture_audio_placeholder);
             } else {
                 Glide.with(viewHolder.itemView.getContext())
-                        .load(PictureMimeType.isContent(path) && !media.isCut() && !media.isCompressed() ? Uri.parse(path)
-                                : path)
+                        .load(PictureMimeType.isContent(path) && !media.isCut() && !media.isCompressed() ? Uri.parse(path) : path)
                         .centerCrop()
                         .placeholder(R.color.app_color_f6)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .into(viewHolder.mImg);
+
             }
             //itemView 的点击事件
             if (mItemClickListener != null) {

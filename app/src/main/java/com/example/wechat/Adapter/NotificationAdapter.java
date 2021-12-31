@@ -3,9 +3,6 @@ package com.example.wechat.Adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,20 +12,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.wechat.Activity.LoginActivity;
 import com.example.wechat.Activity.MainActivity;
 import com.example.wechat.R;
-import com.example.wechat.SQLite.SQLAutoLogin;
-import com.example.wechat.SQLite.SQLiteHelper;
 import com.example.wechat.application.MyApplication;
 import com.example.wechat.javaBean.ContactBean;
+import com.example.wechat.javaBean.ConversationBean;
 import com.example.wechat.javaBean.LoginBean;
 import com.example.wechat.javaBean.NotificationBean;
-import com.example.wechat.javaBean.getStaticBean.getNotificationBean;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
@@ -44,13 +35,11 @@ public class NotificationAdapter extends BaseAdapter {
     private Activity activity;
     private List<NotificationBean> sb1;
     private LoginBean loginBean=LoginBean.getInstance();
-    private List<ContactBean> contactBeanList=ContactBean.getInstance();
-    private MyApplication application;
+
 
     public NotificationAdapter(Context context,Activity activity){
         this.mContext=context;
         this.activity=activity;
-        application = (MyApplication)activity.getApplication();
     }
     public void setData(List<NotificationBean> sb1){
         this.sb1=sb1;
@@ -94,10 +83,10 @@ public class NotificationAdapter extends BaseAdapter {
 
         final NotificationBean bean=getItem(position);
         if(bean!=null){
-            vh.contact_name.setText(bean.getName());
+            vh.contact_name.setText(bean.getUsername());
             vh.contact_email.setText(bean.getEmail());
             Glide.with(mContext).load(bean.getHead()).error(R.mipmap.user).into(vh.contact_head);
-            /*if(bean.getName().equals(getLoginBean.loginBean.getMyName())){
+            /*if(bean.getUsername().equals(getLoginBean.loginBean.getMyName())){
                 vh.refuse.setVisibility(View.INVISIBLE);
                 vh.accept.setVisibility(View.INVISIBLE);
             }*/
@@ -119,14 +108,14 @@ public class NotificationAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 OkHttpClient okHttpClient = new OkHttpClient();
-                Request request = new Request.Builder().url(application.getBack_end_url()+ "handleNotification.action?" +
+                Request request = new Request.Builder().url(MyApplication.BACK_URL+ "handleNotification.action?" +
                         "email="+loginBean.getEmail()+"&contactEmail="+ vh.contact_email.getText()+"&handle=refuse").build();//在这里将用户发送的信息通过url发送给机器人
                 Call call = okHttpClient.newCall(request);
                 // 开启异步线程访问网络
                 call.enqueue(new Callback() {
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
-                        requireLogin();
+                        bean.setState(NotificationBean.REFUSE);
                     }
                     @Override
                     public void onFailure(Call call, IOException e) {
@@ -147,14 +136,30 @@ public class NotificationAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 OkHttpClient okHttpClient = new OkHttpClient();
-                Request request = new Request.Builder().url(application.getBack_end_url()+"handleNotification.action?" +
+                Request request = new Request.Builder().url(MyApplication.BACK_URL+"handleNotification.action?" +
                         "email="+loginBean.getEmail()+"&contactEmail="+ vh.contact_email.getText()+"&handle=accept").build();//在这里将用户发送的信息通过url发送给机器人
                 Call call = okHttpClient.newCall(request);
                 // 开启异步线程访问网络
                 call.enqueue(new Callback() {
                     @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        requireLogin();
+                    public void onResponse(Call call, Response response) {
+                        ContactBean contactBean=new ContactBean();
+
+                        contactBean.setUsername(bean.getUsername());
+                        contactBean.setEmail(bean.getEmail());
+                        contactBean.setHead(bean.getHead());
+
+                        loginBean.getContacts().add(contactBean);
+
+                        ConversationBean conversationBean=new ConversationBean();
+
+                        conversationBean.setConversation_type(ConversationBean.PEOPLE);
+                        conversationBean.setConversation_name(bean.getUsername());
+                        conversationBean.setConversation_cover(bean.getHead());
+                        conversationBean.setAccountNumber(bean.getEmail());
+                        loginBean.getConversations().add(conversationBean);
+
+
                     }
                     @Override
                     public void onFailure(Call call, IOException e) {
@@ -180,87 +185,5 @@ public class NotificationAdapter extends BaseAdapter {
         public Button refuse,accept;
     }
 
-    public void requireLogin() {
-        OkHttpClient okHttpClient = new OkHttpClient();
-        Request request = new Request.Builder().url(application.getBack_end_url()+"login.action?" +
-                "email=" + loginBean.getEmail() + "&password=" + loginBean.getPassword()).build();//在这里将用户发送的信息通过url发送给机器人
-        Call call = okHttpClient.newCall(request);
-        // 开启异步线程访问网络
-        call.enqueue(new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                SQLiteHelper info_helper;//处理获取用户消息记录的数据库操作对象
-                String res = response.body().string();
-                contactBeanList.clear();
-                getNotificationBean.pythonList.clear();
-                Log.i("nmsl",res);
-                try {
-                    JSONObject json=new JSONObject(res);
-                    if(json.getString("loginState").equals("true")){
-                        loginBean.setEmail(json.getString("email"));
-                        loginBean.setPassword(json.getString("password"));
-                        loginBean.setHead(json.getString("head"));
-                        loginBean.setMyName(json.getString("username"));
-                        loginBean.setLogin(true);
-                        JSONArray jsonArray=new JSONArray(json.getString("contacts"));
-                        JSONObject jsonTemp;
 
-                        ContactBean contactBean;
-                        for(int i=0;i<jsonArray.length();i++){
-                            contactBean = new ContactBean();
-                            jsonTemp=jsonArray.getJSONObject(i);
-                            contactBean.setContact_email(jsonTemp.getString("email"));
-                            contactBean.setContact_head(jsonTemp.getString("head"));
-                            contactBean.setContact_name(jsonTemp.getString("username"));
-                            info_helper = new SQLiteHelper(activity);
-                            SQLiteDatabase database = info_helper.getReadableDatabase();
-                            info_helper.onCreate(database);
-
-                            Cursor cursor = info_helper.queryLastMessage(loginBean.getEmail(),jsonTemp.getString("email"));
-                            if(cursor.getCount()==0){
-                                contactBean.setContact_last_message("");
-                            }else {
-                                cursor.moveToFirst();
-                                contactBean.setLast_time(cursor.getString(cursor.getColumnIndex("createTime")));
-                                if(cursor.getString(cursor.getColumnIndex("type")).equals("4")){
-                                    contactBean.setContact_last_message("[图片]");
-                                }else{
-                                    contactBean.setContact_last_message(cursor.getString(cursor.getColumnIndex("message")));
-                                }
-
-                            }
-                            contactBeanList.add(contactBean);
-                        }
-
-
-                        jsonArray=new JSONArray(json.getString("notifications"));
-                        NotificationBean notificationBean;
-                        for(int i=0;i<jsonArray.length();i++){
-                            notificationBean=new NotificationBean();
-                            jsonTemp=jsonArray.getJSONObject(i);
-                            if(jsonTemp.getString("email").equals(loginBean.getEmail())){
-                                Log.i("nmsl",jsonTemp.getString("email")+"    "+loginBean.getEmail());
-                                continue;
-                            }
-                            notificationBean.setEmail(jsonTemp.getString("email"));
-                            notificationBean.setHead(jsonTemp.getString("head"));
-                            notificationBean.setName(jsonTemp.getString("username"));
-                            Integer state = new Integer(jsonTemp.getString("contactState"));
-                            notificationBean.setState(state);
-                            getNotificationBean.pythonList.add(notificationBean);
-                        }
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-        });
-    }
 }

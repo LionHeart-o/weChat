@@ -1,9 +1,16 @@
 <resources>
-    <string name="app_name">weChat</string>
+    <string name="app_name">棍鲨</string>
     <string name="edit_hint">说点什么吧...</string>
     <string name="comment">评论</string>
     <string name="app_drag_delete">拖动到此处删除</string>
     <string name="app_let_go_drag_delete">松手即可删除</string>
     <string name="app_wechat_send">发送</string>
     <string name="app_wechat_send_num">发送(%1$d/%2$d)</string>
+    <string name="pull_to_refresh">下拉可以刷新</string>
+    <string name="release_to_refresh">释放立即刷新</string>
+    <string name="refreshing">正在刷新…</string>
+    <string name="not_updated_yet">暂未更新过</string>
+    <string name="updated_at">上次更新于%1$s前</string>
+    <string name="updated_just_now">刚刚更新</string>
+    <string name="time_error">时间有问题</string>
 </resources>

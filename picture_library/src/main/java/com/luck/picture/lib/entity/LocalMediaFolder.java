@@ -72,7 +72,7 @@ public class LocalMediaFolder implements Parcelable {
         this.bucketId = bucketId;
     }
 
-    public String getName() {
+    public String getUsername() {
         return name;
     }
 

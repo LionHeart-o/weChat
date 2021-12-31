@@ -12,7 +12,34 @@
             android:id="@+id/chat_relative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-            <include layout="@layout/title_bar" />
+
+            <RelativeLayout
+                android:id="@+id/title_bar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#01c5ff"
+                >
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="@android:color/white"
+                    android:text="棍鲨！"
+                    android:textSize="20sp"
+                    />
+                <ImageView
+                    android:id="@+id/action_list"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/add"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp">
+                </ImageView>
+            </RelativeLayout>
+
+
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="700dp"
@@ -22,7 +49,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="700dp"
                     android:orientation="vertical">
-                    <com.example.wechat.Adapter.ContactListView
+                    <com.example.wechat.customView.ContactListView
                         android:id="@+id/v_list"
                         android:layout_width="match_parent"
                         android:layout_height="680dp"

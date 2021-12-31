@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/item_modify"
+        android:icon="@mipmap/modify"
+        android:title="编辑说说"
+        app:showAsAction="always"
+        />
+    <item
+        android:id="@+id/item_delete"
+        android:icon="@mipmap/delete"
+        android:title="删除说说"
+        app:showAsAction="always"
+        />
+</menu>

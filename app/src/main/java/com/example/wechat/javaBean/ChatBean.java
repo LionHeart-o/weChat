@@ -2,7 +2,7 @@ package com.example.wechat.javaBean;
 
 import java.io.Serializable;
 
-public class ChatBean  implements Serializable {
+public class ChatBean implements Serializable {
     public static final int SEND = 1;     //发送消息
     public static final int RECEIVE = 2; //接收到的消息
     public static final int TEXT=3;
@@ -10,16 +10,22 @@ public class ChatBean  implements Serializable {
     public static final int FILE=5;
 
     private int state;       //消息的状态（是接收还是发送）
+
+
     private int messageType;
     private String message; //消息的内容，如果是文字消息就是纯文字意义，如果是图片消息就代表图片本地存储地址
-    private String headDetail;
+    private String head;
+    private String username;
+    private String email;
 
-    public String getHeadDetail() {
-        return headDetail;
+    private int media_position;//媒体信息坐标，用于处理适配器中媒体信息坐标问题。
+
+    public String getEmail() {
+        return email;
     }
 
-    public void setHeadDetail(String headDetail) {
-        this.headDetail = headDetail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public int getState() {
@@ -43,5 +49,27 @@ public class ChatBean  implements Serializable {
         this.messageType = messageType;
     }
 
+    public int getMedia_position() {
+        return media_position;
+    }
 
+    public void setMedia_position(int media_position) {
+        this.media_position = media_position;
+    }
+
+    public String getHead() {
+        return head;
+    }
+
+    public void setHead(String head) {
+        this.head = head;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

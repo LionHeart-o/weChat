@@ -6,13 +6,15 @@
         android:allowBackup="true"
         android:icon="@mipmap/app_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:name=".application.MyApplication"
-        android:theme="@style/Theme.AppCompat.NoActionBar">
+        android:theme="@style/selfDefineNoActionBar">
+
+        <meta-data android:name="android.max_aspect" android:value="ratio_float"/>
+
         <activity android:name=".Activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,14 +22,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.RegisterActivity"></activity>
-        <activity android:name=".Activity.VerficationActivity"></activity>
-        <activity android:name=".Activity.ModifyPasswordActivity"></activity>
-        <activity android:name=".Activity.MainActivity"></activity>
-        <activity android:name=".Activity.DynamicsActivity"></activity>
+        <activity android:name=".Activity.RegisterActivity" android:launchMode="singleTask"></activity>
+        <activity android:name=".Activity.VerficationActivity" android:launchMode="singleTask"></activity>
+        <activity android:name=".Activity.ModifyPasswordActivity" android:launchMode="singleTask"></activity>
+        <activity android:name=".Activity.MainActivity" android:launchMode="singleTask"></activity>
+        <activity android:name=".Activity.DynamicsActivity" android:launchMode="singleTask"></activity>
         <activity android:name=".Activity.ChatActivity" android:launchMode="singleTask"></activity>
+        <activity android:name=".Activity.PlayMusicActivity" android:launchMode="singleTask"></activity>
+        <activity android:name=".Activity.EditInfoActivity" android:launchMode="singleTask"></activity>
+        <activity android:name=".Activity.UserInfoActivity"></activity>
+        <activity android:name=".Activity.AddActivity" android:launchMode="singleTask"></activity>
+        <activity android:name=".Activity.CreateGroupChatActivity" android:launchMode="singleTask"></activity>
 
         <service android:name=".service.TimeService"></service>
+        <service android:name=".service.MusicService"></service>
+        <service android:name=".service.WebSocketService"></service>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -40,7 +49,18 @@
                 />
         </provider>
 
+        <receiver
+            android:name=".Broadcast.XMPlayerReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="play_close" />
+                <action android:name="play_play_pause" />
+            </intent-filter>
+        </receiver>
+
+
     </application>
+
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -49,6 +69,14 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!--允许程序访问CellID或WiFi热点来获取粗略的位置-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 </manifest>

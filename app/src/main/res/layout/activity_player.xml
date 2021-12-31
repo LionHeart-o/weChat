@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    >
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            android:id="@+id/music_cd_cover"
+            android:src="@mipmap/nanami"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            >
+        </ImageView>
+        <ImageView
+            android:id="@+id/music_cd"
+            android:layout_width="256dp"
+            android:layout_height="256dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="20dp"
+            android:src="@mipmap/music_cd"
+            />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/main_music_title"
+        android:text="猴鲨爱情故事"
+        android:textSize="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_height="wrap_content">
+    </TextView>
+    <TextView
+        android:id="@+id/main_music_singer"
+        android:layout_width="wrap_content"
+        android:text="七海辣辣米X电棍"
+        android:layout_marginTop="5dp"
+        android:textSize="14dp"
+        android:layout_height="wrap_content">
+    </TextView>
+
+    <TextView
+        android:id="@+id/main_music_album"
+        android:layout_width="wrap_content"
+        android:text="棍鲨合集"
+        android:layout_marginTop="5dp"
+        android:textSize="12dp"
+        android:layout_height="wrap_content">
+    </TextView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        >
+        <TextView
+            android:id="@+id/tv_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_alignParentLeft="true"
+            android:text="00:00"
+            android:gravity="center_horizontal" />
+        <SeekBar
+            android:id="@+id/sb"
+            android:layout_weight="8"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
+        <TextView
+            android:id="@+id/tv_total"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="00:00"
+            android:gravity="center_horizontal"
+            android:layout_width="wrap_content" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_marginTop="50dp"
+        android:id="@+id/btn_play"
+        android:layout_width="50dp"
+        android:src="@mipmap/play"
+        android:layout_height="50dp">
+    </ImageView>
+</LinearLayout>

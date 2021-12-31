@@ -9,11 +9,17 @@ android {
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
-        versionName "1.0"
+        versionName "1.1"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    android.applicationVariants.all {
+        variant ->
+            variant.outputs.all {
+                // 此处指定生成的apk文件名
+                outputFileName = "FakerChatAPP.apk"
+            }
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -62,5 +68,11 @@ dependencies {
 
     implementation 'com.flipboard:bottomsheet-core:1.5.1'
     implementation 'com.flipboard:bottomsheet-commons:1.5.1'
+
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.15'
+    implementation group: 'net.jthink', name: 'jaudiotagger', version: '2.2.6-PATHRIK'
+    implementation 'org.apache.commons:commons-lang3:3.7'
+    implementation 'com.google.code.gson:gson:2.8.4'
+
 
 }

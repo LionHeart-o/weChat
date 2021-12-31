@@ -7,64 +7,109 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/myHead"
-                android:layout_marginTop="30dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_width="128dp"
-                android:layout_height="128dp">
-            </ImageView>
-        </LinearLayout>
         <RelativeLayout
-            android:id="@+id/updateUsername"
-            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:background="@color/app_color_black"
+            android:layout_height="150dp">
+            <ImageView
+                android:layout_width="match_parent"
+                android:id="@+id/my_info_bg"
+                android:src="@mipmap/default_bg"
+                android:scaleType="centerCrop"
+                android:layout_height="match_parent">
+            </ImageView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:src="@mipmap/nanami"
+                    android:id="@+id/myHead"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp">
+                </ImageView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center_vertical"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:text="七海nana7mi"
+                        android:id="@+id/username"
+                        android:textColor="@color/colorSkyBlue"
+                        android:textSize="20dp"
+                        android:layout_height="wrap_content">
+                    </TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_marginTop="1dp"
+                        android:text="铁轨总得创死一个，要不就把你创死吧？"
+                        android:textColor="@color/app_color_white"
+                        android:textSize="14dp"
+                        android:layout_height="wrap_content">
+                    </TextView>
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+
+
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="5dp"
+            android:id="@+id/edit_info"
+            android:layout_marginTop="1dp"
             android:background="@drawable/item_bg_selector"
             android:padding="10dp">
             <ImageView
-                android:src="@mipmap/user_name"
-                android:id="@+id/user_name_icon"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_marginLeft="5dp"
+                android:src="@mipmap/edit"
+                android:id="@+id/edit_info_icon"
+                android:layout_width="50dp"
+                android:layout_height="45dp"
+                android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
                 android:scaleType="fitXY" />
             <TextView
-                android:id="@+id/username"
+                android:text="编辑个人资料"
                 android:textColor="#000000"
+                android:layout_marginLeft="25dp"
                 android:gravity="center"
-                android:layout_marginLeft="30dp"
-                android:layout_toRightOf="@id/user_name_icon"
+                android:layout_toRightOf="@id/edit_info_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp">
             </TextView>
         </RelativeLayout>
+
         <RelativeLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/modify_chat_bg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="1dp"
             android:background="@drawable/item_bg_selector"
             android:padding="10dp">
             <ImageView
-                android:src="@mipmap/email"
-                android:id="@+id/email_icon"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_marginLeft="10dp"
+                android:src="@mipmap/modify_bg"
+                android:id="@+id/modify_chat_bg_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
                 android:scaleType="fitXY" />
             <TextView
-                android:id="@+id/userEmail"
                 android:textColor="#000000"
                 android:layout_marginLeft="30dp"
                 android:gravity="center"
-                android:layout_toRightOf="@id/email_icon"
+                android:text="修改聊天背景"
+                android:layout_toRightOf="@id/modify_chat_bg_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp">
             </TextView>

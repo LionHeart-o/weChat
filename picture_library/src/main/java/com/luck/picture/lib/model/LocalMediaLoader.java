@@ -351,7 +351,7 @@ public final class LocalMediaLoader {
         if (!config.isFallbackVersion) {
             for (LocalMediaFolder folder : imageFolders) {
                 // Under the same folder, return yourself, otherwise create a new folder
-                String name = folder.getName();
+                String name = folder.getUsername();
                 if (TextUtils.isEmpty(name)) {
                     continue;
                 }
@@ -370,16 +370,16 @@ public final class LocalMediaLoader {
             File folderFile = imageFile.getParentFile();
             for (LocalMediaFolder folder : imageFolders) {
                 // Under the same folder, return yourself, otherwise create a new folder
-                String name = folder.getName();
+                String name = folder.getUsername();
                 if (TextUtils.isEmpty(name)) {
                     continue;
                 }
-                if (folderFile != null && name.equals(folderFile.getName())) {
+                if (folderFile != null && name.equals(folderfile.getName())) {
                     return folder;
                 }
             }
             LocalMediaFolder newFolder = new LocalMediaFolder();
-            newFolder.setName(folderFile != null ? folderFile.getName() : "");
+            newFolder.setName(folderFile != null ? folderfile.getName() : "");
             newFolder.setFirstImagePath(path);
             imageFolders.add(newFolder);
             return newFolder;

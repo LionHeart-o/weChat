@@ -483,12 +483,12 @@ public abstract class PictureBaseActivity extends AppCompatActivity {
         File imageFile = new File(PictureMimeType.isContent(path) ? realPath : path);
         File folderFile = imageFile.getParentFile();
         for (LocalMediaFolder folder : imageFolders) {
-            if (folderFile != null && folder.getName().equals(folderFile.getName())) {
+            if (folderFile != null && folder.getUsername().equals(folderfile.getName())) {
                 return folder;
             }
         }
         LocalMediaFolder newFolder = new LocalMediaFolder();
-        newFolder.setName(folderFile != null ? folderFile.getName() : "");
+        newFolder.setName(folderFile != null ? folderfile.getName() : "");
         newFolder.setFirstImagePath(path);
         imageFolders.add(newFolder);
         return newFolder;
