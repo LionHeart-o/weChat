@@ -20,7 +20,7 @@ public class LoginBean implements Serializable {
     private	String signature;//用户个性签名
     private String residence;//用户居住地
     private String sex;//用户性别
-    private Date birthday;
+    private Date birthday;//生日
 
     private List<ContactBean> contacts;
     private List<NotificationBean> notifications;
